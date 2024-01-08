@@ -13,7 +13,6 @@ pub(crate) use never_union::*;
 pub(crate) use pairwise_over_zipped::*;
 pub(crate) use parenthesize_logical_operators::*;
 pub(crate) use quadratic_list_summation::*;
-pub(crate) use static_key_dict_comprehension::*;
 pub(crate) use unnecessary_iterable_allocation_for_first_element::*;
 pub(crate) use unnecessary_key_check::*;
 #[cfg(feature = "unreachable-code")]
@@ -36,7 +35,6 @@ mod mutable_dataclass_default;
 mod never_union;
 mod pairwise_over_zipped;
 mod parenthesize_logical_operators;
-mod static_key_dict_comprehension;
 mod unnecessary_iterable_allocation_for_first_element;
 mod unnecessary_key_check;
 #[cfg(feature = "unreachable-code")]
