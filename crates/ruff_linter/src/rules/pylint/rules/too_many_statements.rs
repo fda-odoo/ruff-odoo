@@ -44,7 +44,7 @@ use ruff_python_ast::identifier::Identifier;
 /// ```
 ///
 /// ## Options
-/// - `pylint.max-statements`
+/// - `lint.pylint.max-statements`
 #[violation]
 pub struct TooManyStatements {
     statements: usize,

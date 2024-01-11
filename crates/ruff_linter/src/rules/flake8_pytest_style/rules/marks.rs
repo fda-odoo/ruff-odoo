@@ -42,7 +42,7 @@ use super::helpers::get_mark_decorators;
 /// ```
 ///
 /// ## Options
-/// - `flake8-pytest-style.mark-parentheses`
+/// - `lint.flake8-pytest-style.mark-parentheses`
 ///
 /// ## References
 /// - [`pytest` documentation: Marks](https://docs.pytest.org/en/latest/reference/reference.html#marks)

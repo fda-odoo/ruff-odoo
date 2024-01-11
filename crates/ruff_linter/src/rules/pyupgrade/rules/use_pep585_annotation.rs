@@ -51,7 +51,7 @@ use crate::settings::types::PythonVersion;
 ///
 /// ## Options
 /// - `target-version`
-/// - `pyupgrade.keep-runtime-typing`
+/// - `lint.pyupgrade.keep-runtime-typing`
 ///
 /// [PEP 585]: https://peps.python.org/pep-0585/
 #[violation]

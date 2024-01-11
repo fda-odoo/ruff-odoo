@@ -41,7 +41,7 @@ use crate::rules::pylint::helpers::is_known_dunder_method;
 /// ```
 ///
 /// ## Options
-/// - `pylint.allow-dunder-method-names`
+/// - `lint.pylint.allow-dunder-method-names`
 #[violation]
 pub struct BadDunderMethodName {
     name: String,

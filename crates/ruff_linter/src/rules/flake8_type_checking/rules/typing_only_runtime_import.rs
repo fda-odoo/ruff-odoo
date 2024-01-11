@@ -64,9 +64,9 @@ use crate::rules::isort::{categorize, ImportSection, ImportType};
 /// ```
 ///
 /// ## Options
-/// - `flake8-type-checking.quote-annotations`
-/// - `flake8-type-checking.runtime-evaluated-base-classes`
-/// - `flake8-type-checking.runtime-evaluated-decorators`
+/// - `lint.flake8-type-checking.quote-annotations`
+/// - `lint.flake8-type-checking.runtime-evaluated-base-classes`
+/// - `lint.flake8-type-checking.runtime-evaluated-decorators`
 ///
 /// ## References
 /// - [PEP 536](https://peps.python.org/pep-0563/#runtime-annotation-resolution-and-type-checking)
@@ -137,9 +137,9 @@ impl Violation for TypingOnlyFirstPartyImport {
 /// ```
 ///
 /// ## Options
-/// - `flake8-type-checking.quote-annotations`
-/// - `flake8-type-checking.runtime-evaluated-base-classes`
-/// - `flake8-type-checking.runtime-evaluated-decorators`
+/// - `lint.flake8-type-checking.quote-annotations`
+/// - `lint.flake8-type-checking.runtime-evaluated-base-classes`
+/// - `lint.flake8-type-checking.runtime-evaluated-decorators`
 ///
 /// ## References
 /// - [PEP 536](https://peps.python.org/pep-0563/#runtime-annotation-resolution-and-type-checking)
@@ -210,9 +210,9 @@ impl Violation for TypingOnlyThirdPartyImport {
 /// ```
 ///
 /// ## Options
-/// - `flake8-type-checking.quote-annotations`
-/// - `flake8-type-checking.runtime-evaluated-base-classes`
-/// - `flake8-type-checking.runtime-evaluated-decorators`
+/// - `lint.flake8-type-checking.quote-annotations`
+/// - `lint.flake8-type-checking.runtime-evaluated-base-classes`
+/// - `lint.flake8-type-checking.runtime-evaluated-decorators`
 ///
 /// ## References
 /// - [PEP 536](https://peps.python.org/pep-0563/#runtime-annotation-resolution-and-type-checking)

@@ -65,9 +65,9 @@ use crate::settings::LinterSettings;
 /// ```
 ///
 /// ## Options
-/// - `task-tags`
-/// - `pycodestyle.max-doc-length`
-/// - `pycodestyle.ignore-overlong-task-comments`
+/// - `lint.task-tags`
+/// - `lint.pycodestyle.max-doc-length`
+/// - `lint.pycodestyle.ignore-overlong-task-comments`
 ///
 /// [PEP 8]: https://peps.python.org/pep-0008/#maximum-line-length
 #[violation]

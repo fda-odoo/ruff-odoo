@@ -41,7 +41,7 @@ use crate::settings::LinterSettings;
 /// ```
 ///
 /// ## Options
-/// - `allowed-confusables`
+/// - `lint.allowed-confusables`
 ///
 /// [preview]: https://docs.astral.sh/ruff/preview/
 #[violation]
@@ -94,7 +94,7 @@ impl Violation for AmbiguousUnicodeCharacterString {
 /// ```
 ///
 /// ## Options
-/// - `allowed-confusables`
+/// - `lint.allowed-confusables`
 ///
 /// [preview]: https://docs.astral.sh/ruff/preview/
 #[violation]
@@ -147,7 +147,7 @@ impl Violation for AmbiguousUnicodeCharacterDocstring {
 /// ```
 ///
 /// ## Options
-/// - `allowed-confusables`
+/// - `lint.allowed-confusables`
 ///
 /// [preview]: https://docs.astral.sh/ruff/preview/
 #[violation]

@@ -44,7 +44,7 @@ use crate::settings::types::PreviewMode;
 /// ```
 ///
 /// ## Options
-/// - `dummy-variable-rgx`
+/// - `lint.dummy-variable-rgx`
 #[violation]
 pub struct UnusedVariable {
     pub name: String,

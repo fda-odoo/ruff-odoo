@@ -21,7 +21,7 @@ use crate::rules::flake8_builtins::helpers::shadows_builtin;
 /// builtin and vice versa.
 ///
 /// Builtins can be marked as exceptions to this rule via the
-/// [`flake8-builtins.builtins-ignorelist`] configuration option, or
+/// [`lint.flake8-builtins.builtins-ignorelist`] configuration option, or
 /// converted to the appropriate dunder method. Methods decorated with
 /// `@typing.override` or `@typing_extensions.override` are also
 /// ignored.
@@ -49,7 +49,7 @@ use crate::rules::flake8_builtins::helpers::shadows_builtin;
 /// ```
 ///
 /// ## Options
-/// - `flake8-builtins.builtins-ignorelist`
+/// - `lint.flake8-builtins.builtins-ignorelist`
 ///
 /// ## References
 /// - [_Is it bad practice to use a built-in function name as an attribute or method identifier?_](https://stackoverflow.com/questions/9109333/is-it-bad-practice-to-use-a-built-in-function-name-as-an-attribute-or-method-ide)

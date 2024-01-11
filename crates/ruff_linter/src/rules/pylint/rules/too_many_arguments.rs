@@ -42,7 +42,7 @@ use crate::checkers::ast::Checker;
 /// ```
 ///
 /// ## Options
-/// - `pylint.max-args`
+/// - `lint.pylint.max-args`
 #[violation]
 pub struct TooManyArguments {
     c_args: usize,

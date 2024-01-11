@@ -31,7 +31,7 @@ use super::super::settings::Quote;
 /// ```
 ///
 /// ## Options
-/// - `flake8-quotes.inline-quotes`
+/// - `lint.flake8-quotes.inline-quotes`
 ///
 /// ## Formatter compatibility
 /// We recommend against using this rule alongside the [formatter]. The
@@ -87,7 +87,7 @@ impl AlwaysFixableViolation for BadQuotesInlineString {
 /// ```
 ///
 /// ## Options
-/// - `flake8-quotes.multiline-quotes`
+/// - `lint.flake8-quotes.multiline-quotes`
 ///
 /// ## Formatter compatibility
 /// We recommend against using this rule alongside the [formatter]. The
@@ -142,7 +142,7 @@ impl AlwaysFixableViolation for BadQuotesMultilineString {
 /// ```
 ///
 /// ## Options
-/// - `flake8-quotes.docstring-quotes`
+/// - `lint.flake8-quotes.docstring-quotes`
 ///
 /// ## Formatter compatibility
 /// We recommend against using this rule alongside the [formatter]. The

@@ -92,8 +92,8 @@ impl Violation for PytestRaisesWithMultipleStatements {
 /// ```
 ///
 /// ## Options
-/// - `flake8-pytest-style.raises-require-match-for`
-/// - `flake8-pytest-style.raises-extend-require-match-for`
+/// - `lint.flake8-pytest-style.raises-require-match-for`
+/// - `lint.flake8-pytest-style.raises-extend-require-match-for`
 ///
 /// ## References
 /// - [`pytest` documentation: `pytest.raises`](https://docs.pytest.org/en/latest/reference/reference.html#pytest-raises)

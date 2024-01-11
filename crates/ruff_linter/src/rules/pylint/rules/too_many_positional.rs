@@ -40,7 +40,7 @@ use crate::checkers::ast::Checker;
 /// ```
 ///
 /// ## Options
-/// - `pylint.max-positional-args`
+/// - `lint.pylint.max-positional-args`
 #[violation]
 pub struct TooManyPositional {
     c_pos: usize,

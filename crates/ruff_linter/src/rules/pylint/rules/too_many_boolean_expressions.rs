@@ -24,7 +24,7 @@ use crate::checkers::ast::Checker;
 /// ```
 ///
 /// ## Options
-/// - `pylint.max-bool-expr`
+/// - `lint.pylint.max-bool-expr`
 #[violation]
 pub struct TooManyBooleanExpressions {
     expressions: usize,

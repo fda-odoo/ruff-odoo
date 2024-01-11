@@ -67,7 +67,7 @@ use ruff_python_ast::identifier::Identifier;
 /// ```
 ///
 /// ## Options
-/// - `pylint.max-branches`
+/// - `lint.pylint.max-branches`
 #[violation]
 pub struct TooManyBranches {
     branches: usize,

@@ -68,7 +68,7 @@ use ruff_macros::{derive_message_formats, violation};
 /// ```
 ///
 /// ## Options
-/// - `logger-objects`
+/// - `lint.logger-objects`
 ///
 /// ## References
 /// - [Python documentation: `logging`](https://docs.python.org/3/library/logging.html)
@@ -152,7 +152,7 @@ impl Violation for LoggingStringFormat {
 /// ```
 ///
 /// ## Options
-/// - `logger-objects`
+/// - `lint.logger-objects`
 ///
 /// ## References
 /// - [Python documentation: `logging`](https://docs.python.org/3/library/logging.html)
@@ -235,7 +235,7 @@ impl Violation for LoggingPercentFormat {
 /// ```
 ///
 /// ## Options
-/// - `logger-objects`
+/// - `lint.logger-objects`
 ///
 /// ## References
 /// - [Python documentation: `logging`](https://docs.python.org/3/library/logging.html)
@@ -317,7 +317,7 @@ impl Violation for LoggingStringConcat {
 /// ```
 ///
 /// ## Options
-/// - `logger-objects`
+/// - `lint.logger-objects`
 ///
 /// ## References
 /// - [Python documentation: `logging`](https://docs.python.org/3/library/logging.html)
@@ -368,7 +368,7 @@ impl Violation for LoggingFString {
 /// ```
 ///
 /// ## Options
-/// - `logger-objects`
+/// - `lint.logger-objects`
 ///
 /// ## References
 /// - [Python documentation: `logging.warning`](https://docs.python.org/3/library/logging.html#logging.warning)
@@ -436,7 +436,7 @@ impl AlwaysFixableViolation for LoggingWarn {
 /// ```
 ///
 /// ## Options
-/// - `logger-objects`
+/// - `lint.logger-objects`
 ///
 /// ## References
 /// - [Python documentation: LogRecord attributes](https://docs.python.org/3/library/logging.html#logrecord-attributes)
@@ -495,7 +495,7 @@ impl Violation for LoggingExtraAttrClash {
 /// ```
 ///
 /// ## Options
-/// - `logger-objects`
+/// - `lint.logger-objects`
 ///
 /// ## References
 /// - [Python documentation: `logging.exception`](https://docs.python.org/3/library/logging.html#logging.exception)
@@ -556,7 +556,7 @@ impl Violation for LoggingExcInfo {
 /// ```
 ///
 /// ## Options
-/// - `logger-objects`
+/// - `lint.logger-objects`
 ///
 /// ## References
 /// - [Python documentation: `logging.exception`](https://docs.python.org/3/library/logging.html#logging.exception)

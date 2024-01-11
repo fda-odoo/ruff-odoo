@@ -55,7 +55,7 @@ use super::helpers::{
 /// ```
 ///
 /// ## Options
-/// - `flake8-pytest-style.fixture-parentheses`
+/// - `lint.flake8-pytest-style.fixture-parentheses`
 ///
 /// ## References
 /// - [`pytest` documentation: API Reference: Fixtures](https://docs.pytest.org/en/latest/reference/reference.html#fixtures-api)

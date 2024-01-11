@@ -67,7 +67,7 @@ use super::helpers::{is_pytest_parametrize, split_names};
 /// ```
 ///
 /// ## Options
-/// - `flake8-pytest-style.parametrize-names-type`
+/// - `lint.flake8-pytest-style.parametrize-names-type`
 ///
 /// ## References
 /// - [`pytest` documentation: How to parametrize fixtures and test functions](https://docs.pytest.org/en/latest/how-to/parametrize.html#pytest-mark-parametrize)
@@ -170,8 +170,8 @@ impl Violation for PytestParametrizeNamesWrongType {
 /// ```
 ///
 /// ## Options
-/// - `flake8-pytest-style.parametrize-values-type`
-/// - `flake8-pytest-style.parametrize-values-row-type`
+/// - `lint.flake8-pytest-style.parametrize-values-type`
+/// - `lint.flake8-pytest-style.parametrize-values-row-type`
 ///
 /// ## References
 /// - [`pytest` documentation: How to parametrize fixtures and test functions](https://docs.pytest.org/en/latest/how-to/parametrize.html#pytest-mark-parametrize)

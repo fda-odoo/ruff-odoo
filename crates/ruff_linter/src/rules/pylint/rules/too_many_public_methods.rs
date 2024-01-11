@@ -81,7 +81,7 @@ use crate::checkers::ast::Checker;
 /// ```
 ///
 /// ## Options
-/// - `pylint.max-public-methods`
+/// - `lint.pylint.max-public-methods`
 #[violation]
 pub struct TooManyPublicMethods {
     methods: usize,

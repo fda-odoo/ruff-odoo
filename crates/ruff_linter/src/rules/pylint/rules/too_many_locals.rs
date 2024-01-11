@@ -18,7 +18,7 @@ use crate::checkers::ast::Checker;
 /// functions with fewer assignments.
 ///
 /// ## Options
-/// - `pylint.max-locals`
+/// - `lint.pylint.max-locals`
 #[violation]
 pub struct TooManyLocals {
     current_amount: usize,

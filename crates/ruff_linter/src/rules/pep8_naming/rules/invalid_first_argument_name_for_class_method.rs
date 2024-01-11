@@ -44,10 +44,10 @@ use crate::checkers::ast::Checker;
 /// ```
 ///
 /// ## Options
-/// - `pep8-naming.classmethod-decorators`
-/// - `pep8-naming.staticmethod-decorators`
-/// - `pep8-naming.ignore-names`
-/// - `pep8-naming.extend-ignore-names`
+/// - `lint.pep8-naming.classmethod-decorators`
+/// - `lint.pep8-naming.staticmethod-decorators`
+/// - `lint.pep8-naming.ignore-names`
+/// - `lint.pep8-naming.extend-ignore-names`
 ///
 /// [PEP 8]: https://peps.python.org/pep-0008/#function-and-method-arguments
 #[violation]

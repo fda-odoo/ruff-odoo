@@ -48,7 +48,7 @@ use crate::rules::flake8_type_checking::imports::ImportBinding;
 /// ```
 ///
 /// ## Options
-/// - `flake8-type-checking.quote-annotations`
+/// - `lint.flake8-type-checking.quote-annotations`
 ///
 /// ## References
 /// - [PEP 535](https://peps.python.org/pep-0563/#runtime-annotation-resolution-and-type-checking)
