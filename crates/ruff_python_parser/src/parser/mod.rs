@@ -1,6 +1,14 @@
 use std::fmt::Display;
 
-use self::helpers::token_kind_to_cmp_op;
+use bitflags::bitflags;
+
+use ast::{
+    BoolOp, CmpOp, ConversionFlag, ExceptHandler, ExprContext, FStringElement, IpyEscapeKind, Mod,
+    Number, Operator, Pattern, Singleton, UnaryOp,
+};
+use ruff_python_ast::{self as ast, Expr, Stmt};
+use ruff_text_size::{Ranged, TextLen, TextRange, TextSize};
+
 use crate::lexer::lex;
 use crate::{
     error::FStringErrorType,
@@ -12,13 +20,8 @@ use crate::{
     token_source::TokenSource,
     Mode, ParseError, ParseErrorType, Tok, TokenKind,
 };
-use ast::{
-    BoolOp, CmpOp, ConversionFlag, ExceptHandler, ExprContext, FStringElement, IpyEscapeKind, Mod,
-    Number, Operator, Pattern, Singleton, UnaryOp,
-};
-use bitflags::bitflags;
-use ruff_python_ast::{self as ast, Expr, Stmt};
-use ruff_text_size::{Ranged, TextLen, TextRange, TextSize};
+
+use self::helpers::token_kind_to_cmp_op;
 
 mod helpers;
 #[cfg(test)]
@@ -4234,7 +4237,7 @@ impl<'src> Parser<'src> {
     }
 
     fn parse_if_expr(&mut self, body: Expr, body_range: TextRange) -> ExprWithRange {
-        assert!(self.eat(TokenKind::If));
+        self.bump(TokenKind::If);
 
         let (test, _) = self.parse_expr_simple();
 
@@ -4314,21 +4317,19 @@ impl<'src> Parser<'src> {
     }
 
     fn parse_parameter(&mut self, function_kind: FunctionKind) -> ast::Parameter {
+        let start = self.node_start();
         let name = self.parse_identifier();
-        let mut range = name.range;
         // If we are at a colon and we're currently parsing a `lambda` expression,
         // this is the `lambda`'s body, don't try to parse as an annotation.
-        let annotation = if self.at(TokenKind::Colon) && function_kind != FunctionKind::Lambda {
-            self.eat(TokenKind::Colon);
-            let (ann, ann_range) = self.parse_expr();
-            range = range.cover(ann_range);
+        let annotation = if function_kind != FunctionKind::Lambda && self.eat(TokenKind::Colon) {
+            let (ann, _) = self.parse_expr();
             Some(Box::new(ann.expr))
         } else {
             None
         };
 
         ast::Parameter {
-            range,
+            range: self.node_range(start),
             name,
             annotation,
         }
@@ -4338,19 +4339,18 @@ impl<'src> Parser<'src> {
         &mut self,
         function_kind: FunctionKind,
     ) -> ast::ParameterWithDefault {
+        let start = self.node_start();
         let parameter = self.parse_parameter(function_kind);
-        let mut range = parameter.range;
 
         let default = if self.eat(TokenKind::Equal) {
-            let (parsed_expr, expr_range) = self.parse_expr();
-            range = range.cover(expr_range);
+            let (parsed_expr, _) = self.parse_expr();
             Some(Box::new(parsed_expr.expr))
         } else {
             None
         };
 
         ast::ParameterWithDefault {
-            range,
+            range: self.node_range(start),
             parameter,
             default,
         }
@@ -4373,78 +4373,74 @@ impl<'src> Parser<'src> {
         };
 
         let ending_set = TokenSet::new(&[TokenKind::Rarrow, ending]).union(COMPOUND_STMT_SET);
-        let first_param_range = self.current_range();
-        let range = self
-            .parse_separated(true, TokenKind::Comma, ending_set, |parser| {
-                let mut range = parser.current_range();
-                // Don't allow any parameter after we have seen a vararg `**kwargs`
-                if has_seen_vararg {
-                    parser.add_error(ParseErrorType::ParamFollowsVarKeywordParam, range);
-                }
+        let start = self.node_start();
 
-                if parser.eat(TokenKind::Star) {
-                    has_seen_asterisk = true;
-                    if parser.at(TokenKind::Comma) {
-                        has_seen_default_param = false;
-                    } else if parser.at_expr() {
-                        let param = parser.parse_parameter(function_kind);
-                        range = param.range;
-                        vararg = Some(Box::new(param));
-                    }
-                } else if parser.eat(TokenKind::DoubleStar) {
-                    has_seen_vararg = true;
+        self.parse_separated(true, TokenKind::Comma, ending_set, |parser| {
+            // Don't allow any parameter after we have seen a vararg `**kwargs`
+            if has_seen_vararg {
+                parser.add_error(
+                    ParseErrorType::ParamFollowsVarKeywordParam,
+                    parser.current_range(),
+                );
+            }
+
+            if parser.eat(TokenKind::Star) {
+                has_seen_asterisk = true;
+                if parser.at(TokenKind::Comma) {
+                    has_seen_default_param = false;
+                } else if parser.at_expr() {
                     let param = parser.parse_parameter(function_kind);
-                    range = param.range;
-                    kwarg = Some(Box::new(param));
-                } else if parser.eat(TokenKind::Slash) {
-                    // Don't allow `/` after a `*`
-                    if has_seen_asterisk {
-                        let range = parser.current_range();
-                        parser.add_error(
-                            ParseErrorType::OtherError("`/` must be ahead of `*`".to_string()),
-                            range,
-                        );
-                    }
-                    std::mem::swap(&mut args, &mut posonlyargs);
-                } else if parser.at(TokenKind::Name) {
-                    let param = parser.parse_parameter_with_default(function_kind);
-                    // Don't allow non-default parameters after default parameters e.g. `a=1, b`,
-                    // can't place `b` after `a=1`. Non-default parameters are only allowed after
-                    // default parameters if we have a `*` before them, e.g. `a=1, *, b`.
-                    if param.default.is_none() && has_seen_default_param && !has_seen_asterisk {
-                        let range = parser.current_range();
-                        parser.add_error(ParseErrorType::DefaultArgumentError, range);
-                    }
-                    has_seen_default_param = param.default.is_some();
-
-                    range = param.range;
-                    if has_seen_asterisk {
-                        kwonlyargs.push(param);
-                    } else {
-                        args.push(param);
-                    }
-                } else {
-                    if parser.at_ts(SIMPLE_STMT_SET) {
-                        return TextRange::default(); // We can return any range here
-                    }
-
-                    let mut range = parser.current_range();
-                    parser.skip_until(
-                        ending_set.union([TokenKind::Comma, TokenKind::Colon].as_slice().into()),
-                    );
-                    range = range.cover(parser.current_range());
+                    vararg = Some(Box::new(param));
+                }
+            } else if parser.eat(TokenKind::DoubleStar) {
+                has_seen_vararg = true;
+                let param = parser.parse_parameter(function_kind);
+                kwarg = Some(Box::new(param));
+            } else if parser.eat(TokenKind::Slash) {
+                // Don't allow `/` after a `*`
+                if has_seen_asterisk {
                     parser.add_error(
-                        ParseErrorType::OtherError("expected parameter".to_string()),
-                        range,
+                        ParseErrorType::OtherError("`/` must be ahead of `*`".to_string()),
+                        parser.current_range(),
                     );
                 }
+                std::mem::swap(&mut args, &mut posonlyargs);
+            } else if parser.at(TokenKind::Name) {
+                let param = parser.parse_parameter_with_default(function_kind);
+                // Don't allow non-default parameters after default parameters e.g. `a=1, b`,
+                // can't place `b` after `a=1`. Non-default parameters are only allowed after
+                // default parameters if we have a `*` before them, e.g. `a=1, *, b`.
+                if param.default.is_none() && has_seen_default_param && !has_seen_asterisk {
+                    parser.add_error(ParseErrorType::DefaultArgumentError, parser.current_range());
+                }
+                has_seen_default_param = param.default.is_some();
 
-                range
-            })
-            .map_or(first_param_range, |range| first_param_range.cover(range));
+                if has_seen_asterisk {
+                    kwonlyargs.push(param);
+                } else {
+                    args.push(param);
+                }
+            } else {
+                if parser.at_ts(SIMPLE_STMT_SET) {
+                    return TextRange::default(); // We can return any range here
+                }
+
+                let range = parser.current_range();
+                parser.skip_until(
+                    ending_set.union([TokenKind::Comma, TokenKind::Colon].as_slice().into()),
+                );
+                parser.add_error(
+                    ParseErrorType::OtherError("expected parameter".to_string()),
+                    range.cover(parser.current_range()), // TODO(micha): This goes one token too far?
+                );
+            }
+
+            // TODO(micha): Remove
+            TextRange::default()
+        });
 
         let parameters = ast::Parameters {
-            range,
+            range: self.node_range(start),
             posonlyargs,
             args,
             vararg,
